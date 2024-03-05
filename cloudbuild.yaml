@@ -1,10 +1,10 @@
 steps:
   # Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v2', '.']
+    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3', '.']
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v2']
+    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3']
   # Deploy to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -12,8 +12,10 @@ steps:
       - 'deploy'
       - 'iksuiservice'
       - '--image'
-      - 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v2'
+      - 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3'
       - '--platform'
       - 'managed'
       - '--region'
       - 'us-west2'
+      - '--port=80'
+      - '--allow-unauthenticated'

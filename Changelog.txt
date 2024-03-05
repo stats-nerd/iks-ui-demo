@@ -1,0 +1,4 @@
+VERSION                 DATE                DESCRIPTION
+1.0.0                   26/02/2024          - General Category accommodated for SDOH questionnaire
+1.0.1                   29/02/2024          - New login api for patient id integrated
+1.0.2                   04/03/2024          - Text changes and style refractoring

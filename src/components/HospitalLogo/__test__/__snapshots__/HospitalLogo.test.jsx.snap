@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HospitalLogo component renders correctly with default alt text if alt prop is not provided 1`] = `
+<DocumentFragment>
+  <img
+    alt="hospital logo"
+    src="data:image/png;base64,mockLogo"
+  />
+</DocumentFragment>
+`;
+
+exports[`HospitalLogo component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <img
+    alt="hospital logo"
+    src="data:image/png;base64,null"
+  />
+</DocumentFragment>
+`;
+
+exports[`HospitalLogo component renders correctly with provided alt and className props 1`] = `
+<DocumentFragment>
+  <img
+    alt="testAlt"
+    class="testClass"
+    src="data:image/png;base64,mockLogo"
+  />
+</DocumentFragment>
+`;
+
+exports[`HospitalLogo component renders correctly with the hospital logo from appContextState 1`] = `
+<DocumentFragment>
+  <img
+    alt="testAlt"
+    src="data:image/png;base64,mockLogo"
+  />
+</DocumentFragment>
+`;

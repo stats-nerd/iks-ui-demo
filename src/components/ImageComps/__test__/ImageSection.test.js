@@ -1,0 +1,31 @@
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import ImageSection from '../ImageSection';
+
+describe('ImageSection component', () => {
+  it('renders without crashing', () => {
+    render(<ImageSection src="test-image.jpg" alt="Test Image" />);
+    const image = screen.getByAltText('Test Image');
+    expect(image).toBeInTheDocument();
+  });
+
+  it('renders with the correct src and alt attributes', () => {
+    render(<ImageSection src="test-image.jpg" alt="Test Image" />);
+    const image = screen.getByAltText('Test Image');
+    expect(image).toHaveAttribute('src', 'test-image.jpg');
+  });
+
+  it('applies additional styles to the image', () => {
+    render(
+      <ImageSection
+        src="test-image.jpg"
+        alt="Test Image"
+        imageStyles="border-2 rounded-md"
+      />
+    );
+    const image = screen.getByAltText('Test Image');
+    expect(image).toHaveClass('border-2');
+    expect(image).toHaveClass('rounded-md');
+  });
+  
+});

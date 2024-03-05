@@ -23,4 +23,4 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port 80 (default port used by Nginx)
-EXPOSE 80
+EXPOSE 8080

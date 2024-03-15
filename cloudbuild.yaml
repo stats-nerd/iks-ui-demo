@@ -1,4 +1,6 @@
 steps:
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['clone', 'https://github.com/stats-nerd/iks-ui-demo']
   
   - name: 'gcr.io/cloud-builders/sonar-scanner'
     entrypoint: 'bash'

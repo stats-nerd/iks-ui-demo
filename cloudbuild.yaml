@@ -1,6 +1,16 @@
 steps:
   - name: 'gcr.io/cloud-builders/git'
     args: ['clone', 'https://github.com/stats-nerd/iks-ui-demo']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        wget -O sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+        unzip sonar-scanner-cli.zip
+        export PATH=$PATH:/workspace/sonar-scanner-4.6.2.2472-linux/bin/
+
   
   - name: 'gcr.io/cloud-builders/sonar-scanner'
     entrypoint: 'bash'

@@ -1,23 +1,26 @@
 steps:
-  # Build the Docker image  maek
+  
+  - name: 'gcr.io/cloud-builders/sonar-scanner'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        sonar-scanner \
+        -Dsonar.projectKey=my_react_project \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=http://34.125.47.19:8080 \
+        -Dsonar.login=admin \
+        -Dsonar.password=1234 \
+
+
+  
+  # Build the Docker image 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3', '.']
    
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3']
- 
-  - name: 'sonarsource/sonar-scanner-cli'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        sonar-scanner \
-          -Dsonar.host.url=http://34.125.47.19:8080 \
-          -Dsonar.login=admin \
-          -Dsonar.password=1234 \
-          -Dsonar.projectKey=my_react_project \
-          -Dsonar.sources=.
  
   # Deploy to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'

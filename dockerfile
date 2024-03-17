@@ -13,6 +13,13 @@ RUN npm install
 # Copy all files from current directory to work directory
 COPY . .
 
+#run sonar analysis
+RUN npx sonar-scanner \
+    -Dsonar.host.url=http://34.125.47.19:9000 \
+    -Dsonar.login=admin \
+    -Dsonar.password=1234 \
+    -Dsonar.projectKey=my_react_project
+
 # Build React app
 RUN npm run build
 

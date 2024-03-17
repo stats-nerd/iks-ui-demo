@@ -1,26 +1,12 @@
 steps:
   
-  - name: 'gcr.io/cloud-builders/docker'
-    entrypoint: '/bin/bash'
-    args:
-      - '-c'
-      - |
-        sonar-scanner \
-          -Dsonar.host.url=http://34.125.47.19:9000 \
-          -Dsonar.login=admin \
-          -Dsonar.password=1234
-    env:
-      - 'SONAR_LOGIN=admin'
-      - 'SONAR_PASSWORD=1234'
-    dir: '.'
-  
   # Build the Docker image 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v5', '.']
+    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v6', '.']
    
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v5']
+    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v6']
  
   #deploy to cloud run
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -29,7 +15,7 @@ steps:
       - 'deploy'
       - 'iksuiservice'
       - '--image'
-      - 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3'
+      - 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v6'
       - '--platform'
       - 'managed'
       - '--region'

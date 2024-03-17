@@ -1,30 +1,16 @@
 steps:
-  - name: 'gcr.io/cloud-builders/git'
-    args: ['clone', 'https://github.com/stats-nerd/iks-ui-demo']
-
-  - name: 'gcr.io/cloud-builders/npm'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        npm install -g sonarqube-scanner
-
-  - name: 'gcr.io/cloud-builders/sonar-scanner'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        sonar-scanner
-
-
   # Build the Docker image 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3', '.']
+    args: ['build', '-t', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v4', '.']
    
   # Push the Docker image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v3']
+    args: ['push', 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage:v4']
  
+  - name: 'gcr.io/storied-surface-415206/iksuiimage:v4'
+    args: ['sonar-scanner', '-Dsonar.host.url=http://34.125.47.19:9000', '-Dsonar.login=admin','-Dsonar.password=1234']
+    dir: 'asia-docker.pkg.dev/storied-surface-415206/iksuidocker/iksuiimage'
+
   # Deploy to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args:

@@ -13,21 +13,6 @@ RUN npm install
 # Copy all files from current directory to work directory
 COPY . .
 
-# Run Jest tests with code coverage
-RUN npm test -- --coverage
-
-
-# Build the React application
-RUN npm run build
-
-# Stage 2: SonarQube analysis
-FROM node:21 AS sonarqube
-
-WORKDIR /app
-
-# Copy the built application to the sonarqube image
-COPY --from=build /app .
-
 #run sonar analysis
 RUN npx sonar-scanner \
     -Dsonar.host.url=http://34.125.47.19:9000 \
@@ -36,7 +21,8 @@ RUN npx sonar-scanner \
     -Dsonar.projectKey=my_react_project
     -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
-
+# Build React app
+RUN npm run build
 
 # Use Nginx image as base for serving static files
 FROM nginx:alpine

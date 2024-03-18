@@ -1,35 +1,52 @@
-# Use node image as base
+# Stage 1: Build the React application
 FROM node:21 AS build
 
-# Set working directory
 WORKDIR /app
 
-
-# Copy package.json and package-lock.json to work directory
-COPY package*.json ./
+# Copy package.json and package-lock.json
+COPY package.json .
+COPY package-lock.json .
 
 # Install dependencies
 RUN npm install
 
-# Copy all files from current directory to work directory
+# Copy the rest of the application code
 COPY . .
 
-#run sonar analysis
-RUN npx sonar-scanner \
-    -Dsonar.host.url=http://34.125.47.19:9000 \
-    -Dsonar.login=admin \
-    -Dsonar.password=1234 \
-    -Dsonar.projectKey=my_react_project
-    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+# Run Jest tests with code coverage
+RUN npm test -- --coverage
 
-# Build React app
+# Build the React application
 RUN npm run build
 
-# Use Nginx image as base for serving static files
+# Stage 2: SonarQube analysis
+FROM node:21 AS sonarqube
+
+WORKDIR /app
+
+# Copy the built application to the sonarqube image
+COPY --from=build /app .
+
+# Execute Sonar Scanner for analysis
+RUN npx sonar-scanner \
+  -Dsonar.host.url=http://34.125.47.19:9000 \
+  -Dsonar.login=admin \
+  -Dsonar.password=1234 \
+  -Dsonar.projectKey=my_react_project
+  -Dsonar.sources=. \
+  -Dsonar.tests=. \
+  -Dsonar.test.inclusions=**/*.test.js \
+  -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
+# Stage 3: Serve the built React application
 FROM nginx:alpine
 
-# Copy built static files from previous stage to Nginx default public directory
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy build files from the previous stage
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose port 80 (default port used by Nginx)
+# Copy default nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

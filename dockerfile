@@ -33,9 +33,6 @@ RUN npx sonar-scanner \
   -Dsonar.login=admin \
   -Dsonar.password=1234 \
   -Dsonar.projectKey=my_react_project
-  -Dsonar.sources=. \
-  -Dsonar.tests=. \
-  -Dsonar.test.inclusions=**/*.test.js \
   -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
 # Stage 3: Serve the built React application

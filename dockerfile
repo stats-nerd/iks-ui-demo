@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# run zest code coverage test
+RUN npm test -- --coverage
+
 # Copy all files from current directory to work directory
 COPY . .
 
@@ -19,6 +22,7 @@ RUN npx sonar-scanner \
     -Dsonar.login=admin \
     -Dsonar.password=1234 \
     -Dsonar.projectKey=my_react_project
+    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
 # Build React app
 RUN npm run build

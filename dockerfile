@@ -13,8 +13,7 @@ RUN npm install
 
 # Copy all files from current directory to work directory
 COPY . .
-COPY coverage /app/coverage
-COPY sonar-project.properties .
+
 
 #run sonar analysis
 RUN npx sonar-scanner 

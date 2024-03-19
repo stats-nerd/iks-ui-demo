@@ -11,15 +11,13 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-RUN npm test -- --coverage
-
 # Copy all files from current directory to work directory
 COPY . .
 COPY coverage /app/coverage
 COPY sonar-project.properties .
 
 #run sonar analysis
-RUN npx sonar-scanner \
+RUN npx sonar-scanner 
   
 
 # Build React app

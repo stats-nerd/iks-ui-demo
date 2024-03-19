@@ -26,14 +26,11 @@ WORKDIR /app
 
 # Copy the built application to the sonarqube image
 COPY --from=build /app .
+COPY sonar-project.properties .
 
 # Execute Sonar Scanner for analysis
-RUN npx sonar-scanner \
-  -Dsonar.host.url=http://34.125.47.19:9000 \
-  -Dsonar.login=admin \
-  -Dsonar.password=1234 \
-  -Dsonar.projectKey=my_react_project
-  -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+RUN npx sonar-scanner 
+  
 
 # Stage 3: Serve the built React application
 FROM nginx:alpine

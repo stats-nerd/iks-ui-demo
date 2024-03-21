@@ -15,7 +15,7 @@ RUN npm install
 # Copy all files from current directory to work directory
 COPY . .
 
-COPY coverage/lcov.info /app/coverage/lcov.info
+RUN npm test -- --coverage
 
 #run sonar analysis
 RUN npx sonar-scanner 

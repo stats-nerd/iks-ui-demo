@@ -10,6 +10,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+RUN npx jest --coverage
 
 # Copy all files from current directory to work directory
 COPY . .

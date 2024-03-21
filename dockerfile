@@ -18,6 +18,7 @@ COPY . .
 RUN npx jest --coverage
 
 #run sonar analysis
+RUN npm install -g sonarqube-scanner
 RUN npx sonar-scanner 
   
 

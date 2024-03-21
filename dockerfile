@@ -15,10 +15,9 @@ RUN npm install
 # Copy all files from current directory to work directory
 COPY . .
 
-RUN npx jest --coverage
+COPY coverage/lcov.info /app/coverage/lcov.info
 
 #run sonar analysis
-RUN npm install -g sonarqube-scanner
 RUN npx sonar-scanner 
   
 
